@@ -1,0 +1,10 @@
+name: MGArcade
+main: com.comze_instancelabs.mgarcade.Main
+version: 1.0.0
+author: InstanceLabs
+softdepend: [Vault]
+commands:
+   mg:
+      description: Main command
+      usage: /mg [action]
+      aliases: [mgarcade, mga, arcade]
