@@ -43,6 +43,10 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}, 20L);
 		Bukkit.getPluginManager().registerEvents(m, m);
+
+		this.getConfig().addDefault("config.arcade.min_players", 2);
+		this.getConfig().options().copyDefaults(true);
+		this.saveConfig();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -51,7 +55,7 @@ public class Main extends JavaPlugin implements Listener {
 			if (args[0].equalsIgnoreCase("nextminigame")) {
 				if (args.length > 1) {
 					IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
-					if(a != null){
+					if (a != null) {
 						a.ai.nextMinigame();
 					}
 				} else {
