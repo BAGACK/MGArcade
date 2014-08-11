@@ -18,7 +18,7 @@ public class IArena extends Arena {
 	public IArena(JavaPlugin plugin, String arena_id, ArrayList<PluginInstance> minigames) {
 		super(plugin, arena_id);
 		this.plugin = plugin;
-		ai = new ArcadeInstance(minigames, this);
+		ai = new ArcadeInstance(plugin, minigames, this);
 	}
 
 	@Override

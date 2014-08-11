@@ -3,6 +3,7 @@ package com.comze_instancelabs.mgarcade;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,7 +46,20 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		return api.getCommandHandler().handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
+		api.getCommandHandler().handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
+		if (args.length > 0) {
+			if (args[0].equalsIgnoreCase("nextminigame")) {
+				if (args.length > 1) {
+					IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
+					if(a != null){
+						a.ai.nextMinigame();
+					}
+				} else {
+					sender.sendMessage(ChatColor.RED + "/arcade nextminigame <arena>");
+				}
+			}
+		}
+		return true;
 	}
 
 	public static ArrayList<Arena> loadArenas(JavaPlugin plugin, ArenasConfig cf) {
