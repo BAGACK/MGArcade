@@ -45,6 +45,7 @@ public class Main extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(m, m);
 
 		this.getConfig().addDefault("config.arcade.min_players", 2);
+		this.getConfig().addDefault("config.arcade.lobby_countdown", 30);
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
 	}
@@ -56,7 +57,8 @@ public class Main extends JavaPlugin implements Listener {
 				if (args.length > 1) {
 					IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
 					if (a != null) {
-						a.ai.nextMinigame();
+						a.ai.stopCurrentMinigame();
+						//a.ai.nextMinigame();
 					}
 				} else {
 					sender.sendMessage(ChatColor.RED + "/arcade nextminigame <arena>");
