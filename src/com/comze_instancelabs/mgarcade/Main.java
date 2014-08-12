@@ -54,14 +54,16 @@ public class Main extends JavaPlugin implements Listener {
 		api.getCommandHandler().handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("nextminigame")) {
-				if (args.length > 1) {
-					IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
-					if (a != null) {
-						a.ai.stopCurrentMinigame();
-						//a.ai.nextMinigame();
+				if(sender.hasPermission("arcade.nextminigame")){
+					if (args.length > 1) {
+						IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
+						if (a != null) {
+							a.ai.stopCurrentMinigame();
+							//a.ai.nextMinigame();
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + "/arcade nextminigame <arena>");
 					}
-				} else {
-					sender.sendMessage(ChatColor.RED + "/arcade nextminigame <arena>");
 				}
 			}
 		}
