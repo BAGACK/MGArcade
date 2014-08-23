@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comze_instancelabs.minigamesapi.Arena;
@@ -54,15 +55,44 @@ public class Main extends JavaPlugin implements Listener {
 		api.getCommandHandler().handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("nextminigame")) {
-				if(sender.hasPermission("arcade.nextminigame")){
+				if (sender.hasPermission("arcade.nextminigame")) {
 					if (args.length > 1) {
 						IArena a = (IArena) api.pinstances.get(m).getArenaByName(args[1]);
 						if (a != null) {
 							a.ai.stopCurrentMinigame();
-							//a.ai.nextMinigame();
+							// a.ai.nextMinigame();
 						}
 					} else {
 						sender.sendMessage(ChatColor.RED + "/arcade nextminigame <arena>");
+					}
+				}
+			} else if (args[0].equalsIgnoreCase("setenabled")) {
+				if (sender.hasPermission("arcade.setenabled")) {
+					if (args.length > 2) {
+						String mg = args[1];
+						String bool = args[2];
+
+						if (bool.equalsIgnoreCase("false") || bool.equalsIgnoreCase("true")) {
+							Plugin plugin = Bukkit.getPluginManager().getPlugin(mg);
+							if (plugin != null) {
+								plugin.getConfig().set("config.arcade.enabled", Boolean.parseBoolean(bool));
+								plugin.saveConfig();
+							} else {
+								sender.sendMessage(ChatColor.RED + "Minigame not found. Try /arcade listminigames and don't forget that caps matter!");
+							}
+						} else {
+							sender.sendMessage(ChatColor.RED + "/arcade setenabled <minigame> <true/false>");
+						}
+					} else {
+						sender.sendMessage(ChatColor.RED + "/arcade setenabled <minigame> <true/false>");
+					}
+				}
+			} else if (args[0].equalsIgnoreCase("listminigames")) {
+				for (PluginInstance pli : minigames) {
+					if (pli.getPlugin().getConfig().getBoolean("config.arcade.enabled")) {
+						sender.sendMessage(ChatColor.GREEN + pli.getPlugin().getName());
+					} else {
+						sender.sendMessage(ChatColor.RED + pli.getPlugin().getName());
 					}
 				}
 			}
