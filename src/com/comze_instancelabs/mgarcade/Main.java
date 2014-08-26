@@ -28,6 +28,8 @@ public class Main extends JavaPlugin implements Listener {
 	Main m = null;
 	static ArrayList<PluginInstance> minigames = new ArrayList<PluginInstance>();
 
+	ICommandHandler ic;
+	
 	public void onEnable() {
 		m = this;
 		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
@@ -49,10 +51,12 @@ public class Main extends JavaPlugin implements Listener {
 		this.getConfig().addDefault("config.arcade.lobby_countdown", 30);
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
+		
+		ic = new ICommandHandler();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		api.getCommandHandler().handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
+		ic.handleArgs(this, "arcade", "/" + cmd.getName(), sender, args);
 		if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("nextminigame")) {
 				if (sender.hasPermission("arcade.nextminigame")) {
@@ -87,7 +91,7 @@ public class Main extends JavaPlugin implements Listener {
 						sender.sendMessage(ChatColor.RED + "/arcade setenabled <minigame> <true/false>");
 					}
 				}
-			} else if (args[0].equalsIgnoreCase("listminigames")) {
+			} else if (args[0].equalsIgnoreCase("listminigames") || args[0].equalsIgnoreCase("listgames")) {
 				for (PluginInstance pli : minigames) {
 					if (pli.getPlugin().getConfig().getBoolean("config.arcade.enabled")) {
 						sender.sendMessage(ChatColor.GREEN + pli.getPlugin().getName());
