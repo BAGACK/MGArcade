@@ -43,6 +43,7 @@ public class Main extends JavaPlugin implements Listener {
 				PluginInstance pinstance = api.pinstances.get(m);
 				pinstance.addLoadedArenas(loadArenas(m, pinstance.getArenasConfig()));
 				pinstance.scoreboardManager = new IArenaScoreboard();
+				pinstance.setClassesHandler(new IClasses(m));
 			}
 		}, 20L);
 		Bukkit.getPluginManager().registerEvents(m, m);
