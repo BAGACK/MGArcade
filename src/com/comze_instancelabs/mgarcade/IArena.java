@@ -2,10 +2,13 @@ package com.comze_instancelabs.mgarcade;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.comze_instancelabs.minigamesapi.Arena;
+import com.comze_instancelabs.minigamesapi.ArenaState;
 import com.comze_instancelabs.minigamesapi.MinigamesAPI;
 import com.comze_instancelabs.minigamesapi.PluginInstance;
 import com.comze_instancelabs.minigamesapi.arcade.ArcadeInstance;
@@ -46,6 +49,7 @@ public class IArena extends Arena {
 	@Override
 	public void stop() {
 		ai.stopArcade();
+		this.setArenaState(ArenaState.JOIN);
 		this.updateSign(ai);
 	}
 
@@ -55,10 +59,17 @@ public class IArena extends Arena {
 		if (pli.global_players.containsKey(playername)) {
 			pli.global_players.remove(playername);
 		}
+		Player p = Bukkit.getPlayer(playername);
+		if (p != null) {
+			if (!p.isOp()) {
+				p.setFlying(false);
+				p.setAllowFlight(false);
+			}
+		}
 		ai.leaveArcade(playername);
 	}
-	
-	public void updateSign(ArcadeInstance ai){
+
+	public void updateSign(ArcadeInstance ai) {
 		Arena arena = this;
 		Sign s = Util.getSignFromArena(plugin, this.getName());
 		int count = ai.players.size();
