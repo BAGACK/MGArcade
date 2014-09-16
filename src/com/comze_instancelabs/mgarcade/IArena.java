@@ -49,7 +49,7 @@ public class IArena extends Arena {
 
 	@Override
 	public void stop() {
-		ai.stopArcade();
+		ai.stopArcade(true);
 		this.setArenaState(ArenaState.JOIN);
 		this.updateSign(ai);
 	}
