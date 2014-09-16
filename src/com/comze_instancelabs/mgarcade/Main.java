@@ -39,11 +39,14 @@ public class Main extends JavaPlugin implements Listener {
 		}, 10L);
 		Bukkit.getScheduler().runTaskLater(this, new Runnable() {
 			public void run() {
-				api = MinigamesAPI.getAPI().setupAPI(m, "arcade", IArena.class, new ArenasConfig(m), new MessagesConfig(m), new IClassesConfig(m), new StatsConfig(m, false), new DefaultConfig(m, false), false);
+				api = MinigamesAPI.getAPI().setupAPI(m, "arcade", IArena.class, new ArenasConfig(m), new MessagesConfig(m), new IClassesConfig(m), new StatsConfig(m, false), new DefaultConfig(m, false), true);
 				PluginInstance pinstance = api.pinstances.get(m);
 				pinstance.addLoadedArenas(loadArenas(m, pinstance.getArenasConfig()));
 				pinstance.scoreboardManager = new IArenaScoreboard();
 				pinstance.setClassesHandler(new IClasses(m));
+				IArenaListener ia = new IArenaListener(m, pinstance, "arcade");
+				pinstance.setArenaListener(ia);
+				MinigamesAPI.getAPI().registerArenaListenerLater(m, ia);
 			}
 		}, 20L);
 		Bukkit.getPluginManager().registerEvents(m, m);
