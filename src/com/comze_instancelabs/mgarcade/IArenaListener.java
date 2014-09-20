@@ -1,6 +1,7 @@
 package com.comze_instancelabs.mgarcade;
 
-import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +29,16 @@ public class IArenaListener extends ArenaListener {
 				super.onPlayerDeath(event);
 			}
 		}
+	}
+	
+	@Override
+	public void onBlockBreak(BlockBreakEvent event){
+		
+	}
+	
+	@Override
+	public void onBlockPlace(BlockPlaceEvent event){
+		
 	}
 
 }
