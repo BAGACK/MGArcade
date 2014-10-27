@@ -1,5 +1,6 @@
 package com.comze_instancelabs.mgarcade;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
@@ -27,6 +28,16 @@ public class IArena extends Arena {
 		this.plugin = plugin;
 		ai = new ArcadeInstance(plugin, minigames, this);
 		this.setAlwaysPvP(true);
+
+		boolean cont = false;
+		for (Method m : this.getClass().getMethods()) {
+			if (m.getName().equalsIgnoreCase("setArcadeMain")) {
+				cont = true;
+			}
+		}
+		if (cont) {
+			this.setArcadeMain(true);
+		}
 	}
 
 	@Override
